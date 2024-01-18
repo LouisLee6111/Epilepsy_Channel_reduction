@@ -1,20 +1,9 @@
-Data = readtable('\KUH_functional_connectivity\flat_adjmat_alpha_COH
-flat_adjmat = table2array(Data(1,:));
+Data = load('\KUH_functional_connectivity\alpha.mat');
+adjmat = Data(:,:,1);
 
-%% make adjancency matrix for 16x16
-
-no_chan = 19;
-
-comb = nchoosek([1:no_chan],2);
-adjmat = zeros(no_chan,no_chan);
-for i = 1:length(comb)
-    adjmat(comb(i,1),comb(i,2)) = flat_adjmat(i);
-    adjmat(comb(i,2),comb(i,1)) = flat_adjmat(i);
-end
-
-cc = mean(clustering_coef_wu(tt(:,:,sub)));
-evc = mean(eigenvector_centrality_und(tt(:,:,sub)));
-mo = mean(modularity_und(tt(:,:,sub)));
-st = mean(strengths_und(tt(:,:,sub)));
-glo_effi = efficiency_wei(tt(:,:,sub));
-loc_effi = mean(efficiency_wei(tt(:,:,sub)),2);
+cc = mean(clustering_coef_wu(adjmat(:,:,sub)));
+evc = mean(eigenvector_centrality_und(adjmat(:,:,sub)));
+mo = mean(modularity_und(adjmat(:,:,sub)));
+st = mean(strengths_und(adjmat(:,:,sub)));
+glo_effi = efficiency_wei(adjmat(:,:,sub));
+loc_effi = mean(efficiency_wei(adjmat(:,:,sub)),2);
